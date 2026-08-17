@@ -2,6 +2,7 @@
 -- 1. CREAR LA BASE
 -- ============================================================
 CREATE DATABASE Ventas_Tech_DB;
+GO
 USE Ventas_Tech_DB;
 GO
 -- ============================================================
@@ -16,34 +17,32 @@ DROP TABLE IF EXISTS categorias;
 -- 3. CREACION DE TABLAS Y DEPENDENCIAS
 -- ============================================================
 CREATE TABLE categorias (
-id_categoria INT NOT NULL PRIMARY KEY,
-nombre_categoria VARCHAR(50) NOT NULL,
-descripcion	VARCHAR(200)
+id_categoria INT NOT NULL PRIMARY KEY, -- Identificador único numérico entero 
+nombre_categoria VARCHAR(50) NOT NULL, -- Cadena de texto de hasta 50 caracteres
+descripcion	VARCHAR(200) -- Cadena de texto de hasta 200 caracteres
 );
 CREATE TABLE clientes (
-id_cliente	INT	NOT NULL PRIMARY KEY,
-nombre	VARCHAR(100)	NOT NULL,
-email	VARCHAR(100)	UNIQUE,
-ciudad	VARCHAR(50)	​,
-fecha_registro	DATE	NOT NULL
+id_cliente	INT	NOT NULL PRIMARY KEY, -- Identificador único numérico entero 
+nombre	VARCHAR(100)	NOT NULL, -- Cadena de texto de hasta 100 caracteres
+email	VARCHAR(100)	UNIQUE, -- Cadena de texto de hasta 100 caracteres
+ciudad	VARCHAR(50)	​, -- Cadena de texto de hasta 50 caracteres
+fecha_registro	DATE	NOT NULL -- Almacena  la fecha (año, mes, día)
 );
 CREATE TABLE productos (
-id_producto	INT	PRIMARY KEY,
-nombre_producto	VARCHAR(100)	NOT NULL,
--- Definición de la Foreign Key apuntando a la tabla categorias:
-id_categoria INT REFERENCES categorias(id_categoria),
-precio	DECIMAL(10,2)	NOT NULL,
-stock	INT	DEFAULT 0,
-activo TINYINT DEFAULT 1,
+id_producto	INT	PRIMARY KEY, -- Identificador único numérico entero 
+nombre_producto	VARCHAR(100)	NOT NULL, -- Cadena de texto de hasta 100 caracteres
+id_categoria INT REFERENCES categorias(id_categoria), --Foreign Key apuntando a la tabla categorias
+precio	DECIMAL(10,2)	NOT NULL, --Indicado para importes monetarios, que permite realizar calculos
+stock	INT	DEFAULT 0, --Numero entero no fraccionable, la cantidad inicial al ingresar un producto nuevo sera cero a menos que se especifique lo contrario
+activo TINYINT DEFAULT 1 --Numero entero que funciona como una bandera booleana (1 para producto activo y disponible, 0 para descontinuado
 );
 CREATE TABLE ventas (
-id_venta	INT	PRIMARY KEY,
--- Definición de la Foreign Key apuntando a la tabla clientes y producto--:
-id_cliente	INT NOT NULL	REFERENCES clientes(id_cliente),
-id_producto	INT NOT NULL	REFERENCES productos (id_producto),
-cantidad	INT	NOT NULL,
-precio_unitario	DECIMAL(10,2)	NOT NULL,
-fecha_venta	DATE	NOT NULL
+id_venta	INT	PRIMARY KEY, -- Identificador único numérico entero
+id_cliente	INT NOT NULL	REFERENCES clientes(id_cliente), --Foreign Key apuntando a la tabla clientes
+id_producto	INT NOT NULL	REFERENCES productos (id_producto), --Foreign Key apuntando a la tabla producto
+cantidad	INT	NOT NULL, --Numero entero
+precio_unitario	DECIMAL(10,2)	NOT NULL, --Indicado para importes monetarios, que permite realizar calculos
+fecha_venta	DATE	NOT NULL -- Almacena  la fecha (año, mes, día)
 );
 -- ============================================================
 -- 4. CARGA DE DATOS
